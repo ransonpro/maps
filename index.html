@@ -45,13 +45,20 @@
 
   <script>
     function initMap() {
-      // Coordenadas iniciales
-      const defaultLocation = { lat: 10.176872, lng: -64.686673 };
+      // Coordenadas iniciales (10.18565896837558, -64.68045253627228)
+      const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
-      // Crear el mapa
+      // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: defaultLocation,
+      });
+
+      // Agregar marcador en la ubicación predeterminada
+      new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        title: 'Ubicación predeterminada',
       });
 
       // Manejar el botón de ubicación
