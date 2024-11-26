@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mapa con Texto Más Grande</title>
+  <title>Mapa Restringido</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
+    /* Configurar el contenedor del mapa */
     #map {
       height: 90%; /* El mapa ocupa el 90% de la pantalla */
       width: 100%;
+      user-select: none; /* Deshabilitar selección de texto */
     }
+
+    /* Contenedor del botón */
     #button-container {
       position: relative;
       height: 10%; /* Altura reservada para el botón */
@@ -15,8 +19,10 @@
       justify-content: center;
       align-items: center;
       background-color: #f1f1f1;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra para diferenciar el botón del mapa */
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
     }
+
+    /* Estilo del botón */
     #location-button {
       background-color: #4285F4;
       color: white;
@@ -28,13 +34,40 @@
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
+
     #location-button:hover {
       background-color: #357ae8;
     }
+
+    /* Configurar fuente y margen general */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
+    }
+
+    /* Forzar modo móvil */
+    @media screen and (min-width: 768px) {
+      body::before {
+        content: "Esta página solo está disponible en dispositivos móviles.";
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        width: 100vw;
+        position: absolute;
+        z-index: 1000;
+        background: white;
+        font-size: 20px;
+        font-weight: bold;
+        color: red;
+        text-align: center;
+      }
+
+      #map,
+      #button-container {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -52,32 +85,11 @@
       // Coordenadas iniciales (10.18565896837558, -64.68045253627228)
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
-      // Estilos personalizados para texto más grande
-      const mapStyles = [
-        {
-          elementType: "labels.text",
-          stylers: [{ visibility: "on" }, { weight: 1.5 }, { color: "#000000" }],
-        },
-        {
-          elementType: "labels.text.fill",
-          stylers: [{ color: "#000000" }, { weight: 1.5 }],
-        },
-        {
-          elementType: "labels.text.stroke",
-          stylers: [{ visibility: "off" }],
-        },
-        {
-          featureType: "road",
-          elementType: "labels",
-          stylers: [{ fontSize: "16px" }],
-        },
-      ];
-
       // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 17, // Zoom cercano
         center: defaultLocation,
-        styles: mapStyles, // Aplicar estilos personalizados
+        disableDefaultUI: true, // Deshabilitar controles predeterminados
       });
 
       // Estilo personalizado para el marcador
@@ -124,6 +136,14 @@
         }
       });
     }
+
+    // Bloquear clic derecho y otras acciones
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "F12" || (event.ctrlKey && (event.key === "u" || event.key === "U" || event.key === "i" || event.key === "I"))) {
+        event.preventDefault();
+      }
+    });
 
     // Inicializar el mapa
     window.onload = initMap;
