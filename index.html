@@ -5,15 +5,15 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
     #map {
-      height: 90%; /* Ocupa el 90% de la pantalla */
+      height: 95%; /* Ocupa el 95% de la pantalla */
       width: 100%;
     }
     #button-container {
-      height: 10%; /* Espacio reservado para el botón */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f9f9f9;
+      position: absolute;
+      top: 10px; /* Ajuste para estar más arriba */
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
     }
     #location-button {
       background-color: #4285F4;
@@ -23,6 +23,7 @@
       border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
     #location-button:hover {
       background-color: #357ae8;
@@ -50,15 +51,22 @@
 
       // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
+        zoom: 17, // Aumentar el zoom para mayor cercanía
         center: defaultLocation,
       });
+
+      // Estilo personalizado para el marcador
+      const markerIcon = {
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png", // Icono más visible
+        scaledSize: new google.maps.Size(50, 50), // Ajustar tamaño
+      };
 
       // Agregar marcador en la ubicación predeterminada
       new google.maps.Marker({
         position: defaultLocation,
         map: map,
         title: 'Ubicación predeterminada',
+        icon: markerIcon, // Usar icono personalizado
       });
 
       // Manejar el botón de ubicación
@@ -74,11 +82,12 @@
               // Centrar el mapa
               map.setCenter(userLocation);
 
-              // Agregar un marcador
+              // Agregar un marcador para la ubicación del usuario
               new google.maps.Marker({
                 position: userLocation,
                 map: map,
-                title: 'Tu ubicación.',
+                title: 'Tu ubicación',
+                icon: markerIcon, // Usar icono personalizado
               });
             },
             () => {
