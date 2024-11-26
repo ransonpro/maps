@@ -31,6 +31,7 @@
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17, // Nivel de zoom inicial
         center: defaultLocation,
+        gestureHandling: "greedy", // Permite mover el mapa con un solo dedo
       });
 
       // Crear el botón de geolocalización
