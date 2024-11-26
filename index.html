@@ -1,19 +1,20 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=375, user-scalable=no"> <!-- Fuerza el tamaño móvil -->
   <title>Mapa Restringido</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
-    /* Configurar el contenedor del mapa */
+    /* Fuerza el contenedor del mapa */
     #map {
       height: 90%; /* El mapa ocupa el 90% de la pantalla */
       width: 100%;
-      user-select: none; /* Deshabilitar selección de texto */
+      user-select: none; /* Deshabilita la selección de texto */
     }
 
     /* Contenedor del botón */
     #button-container {
-      position: relative;
       height: 10%; /* Altura reservada para el botón */
       display: flex;
       justify-content: center;
@@ -39,35 +40,12 @@
       background-color: #357ae8;
     }
 
-    /* Configurar fuente y margen general */
+    /* Configuración de fuente y margen general */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-    }
-
-    /* Forzar modo móvil */
-    @media screen and (min-width: 768px) {
-      body::before {
-        content: "Esta página solo está disponible en dispositivos móviles.";
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        width: 100vw;
-        position: absolute;
-        z-index: 1000;
-        background: white;
-        font-size: 20px;
-        font-weight: bold;
-        color: red;
-        text-align: center;
-      }
-
-      #map,
-      #button-container {
-        display: none;
-      }
+      overflow: hidden; /* Oculta barras de scroll */
     }
   </style>
 </head>
@@ -128,11 +106,11 @@
               });
             },
             () => {
-              alert('No se pudo obtener tu ubicación.');
+              console.warn('No se pudo obtener tu ubicación.'); // Mensaje sin alertas
             }
           );
         } else {
-          alert('Tu navegador no soporta geolocalización.');
+          console.warn('Tu navegador no soporta geolocalización.');
         }
       });
     }
@@ -140,7 +118,10 @@
     // Bloquear clic derecho y otras acciones
     document.addEventListener("contextmenu", (event) => event.preventDefault());
     document.addEventListener("keydown", (event) => {
-      if (event.key === "F12" || (event.ctrlKey && (event.key === "u" || event.key === "U" || event.key === "i" || event.key === "I"))) {
+      if (
+        event.key === "F12" || 
+        (event.ctrlKey && ["u", "U", "i", "I"].includes(event.key))
+      ) {
         event.preventDefault();
       }
     });
