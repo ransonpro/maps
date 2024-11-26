@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Mapa sin POIs</title>
+  <title>Mapa con POIs pero sin Interacción</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
     #map {
@@ -23,29 +23,25 @@
     function initMap() {
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
-      // Crear el mapa con los estilos que desactivan los POIs
+      // Crear el mapa
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17,
         center: defaultLocation,
         disableDefaultUI: true, // Deshabilitar controles predeterminados
-        gestureHandling: "greedy", // Permitir mover el mapa con un dedo
-        styles: [
-          {
-            featureType: "poi", // Desactivar puntos de interés (POIs)
-            stylers: [{ visibility: "off" }],
-          },
-          {
-            featureType: "poi.business", // Desactivar negocios
-            stylers: [{ visibility: "off" }],
-          },
-        ],
+        gestureHandling: "greedy", // Permitir mover con un dedo
       });
 
-      // Agregar un marcador en una ubicación predeterminada
-      new google.maps.Marker({
-        position: defaultLocation,
-        map: map,
-        clickable: false, // No permite interacción con el marcador
+      // Escuchar eventos de clic en el mapa para bloquear la interacción con POIs
+      map.addListener("click", (event) => {
+        console.log("Clic en el mapa:", event.latLng.toString());
+      });
+
+      // Interceptar eventos de clic en POIs y anularlos
+      map.addListener("click", (event) => {
+        if (event.placeId) {
+          // Evitar que el cuadro de información predeterminado se muestre
+          event.stop();
+        }
       });
     }
 
