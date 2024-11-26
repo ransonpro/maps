@@ -6,16 +6,16 @@
   <style>
     /* Estilo para el mapa */
     #map {
-      height: 100%;
+      height: 100%; /* Asegura que el mapa ocupe toda la pantalla */
       width: 100%;
     }
 
-    /* Contenedor del botón */
+    /* Contenedor para el botón */
     #button-container {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 9999;
+      position: absolute; /* Coloca el botón sobre el mapa */
+      top: 10px; /* Ajusta la posición desde el borde superior */
+      left: 10px; /* Ajusta la posición desde el borde izquierdo */
+      z-index: 1000; /* Asegura que esté por encima del mapa */
     }
 
     /* Estilo del botón */
@@ -34,10 +34,12 @@
       background-color: #357ae8;
     }
 
+    /* Asegura que el contenedor principal tenga estilos */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
+      overflow: hidden; /* Evita el scroll inesperado */
     }
   </style>
 </head>
@@ -63,7 +65,7 @@
         center: defaultLocation,
       });
 
-      // Agregar un marcador en la ubicación predeterminada
+      // Agregar marcador en la ubicación predeterminada
       new google.maps.Marker({
         position: defaultLocation,
         map: map,
