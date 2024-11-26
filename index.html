@@ -2,20 +2,20 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=375, user-scalable=no"> <!-- Fuerza el tamaño móvil -->
-  <title>Mapa Restringido</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Mapa Adaptable</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
-    /* Fuerza el contenedor del mapa */
+    /* Contenedor del mapa */
     #map {
-      height: 90%; /* El mapa ocupa el 90% de la pantalla */
-      width: 100%;
-      user-select: none; /* Deshabilita la selección de texto */
+      height: 85vh; /* Altura del mapa: 85% de la altura visible */
+      width: 100%; /* Ocupa todo el ancho */
+      user-select: none; /* Deshabilitar selección de texto */
     }
 
     /* Contenedor del botón */
     #button-container {
-      height: 10%; /* Altura reservada para el botón */
+      height: 15vh; /* Altura: 15% de la altura visible */
       display: flex;
       justify-content: center;
       align-items: center;
@@ -28,9 +28,9 @@
       background-color: #4285F4;
       color: white;
       border: none;
-      padding: 15px 30px;
+      padding: 1em 2em;
       border-radius: 8px;
-      font-size: 18px;
+      font-size: 1.2em; /* Escala automáticamente según el tamaño de la pantalla */
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -40,12 +40,28 @@
       background-color: #357ae8;
     }
 
-    /* Configuración de fuente y margen general */
+    /* Configuración general */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Oculta barras de scroll */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Adaptaciones responsivas */
+    @media (max-width: 600px) {
+      #location-button {
+        font-size: 1em; /* Reducir el tamaño del texto en pantallas pequeñas */
+        padding: 0.8em 1.5em;
+      }
+    }
+
+    @media (min-width: 601px) and (max-width: 1024px) {
+      #location-button {
+        font-size: 1.1em; /* Tamaño medio para tablets */
+        padding: 1em 2em;
+      }
     }
   </style>
 </head>
@@ -106,7 +122,7 @@
               });
             },
             () => {
-              console.warn('No se pudo obtener tu ubicación.'); // Mensaje sin alertas
+              console.warn('No se pudo obtener tu ubicación.');
             }
           );
         } else {
@@ -114,17 +130,6 @@
         }
       });
     }
-
-    // Bloquear clic derecho y otras acciones
-    document.addEventListener("contextmenu", (event) => event.preventDefault());
-    document.addEventListener("keydown", (event) => {
-      if (
-        event.key === "F12" || 
-        (event.ctrlKey && ["u", "U", "i", "I"].includes(event.key))
-      ) {
-        event.preventDefault();
-      }
-    });
 
     // Inicializar el mapa
     window.onload = initMap;
