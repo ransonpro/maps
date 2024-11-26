@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Mapa con Geolocalización</title>
+  <title>Mapa Móvil Solo Movimiento</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
-    /* Contenedor del mapa */
     #map {
       height: 100vh; /* Ocupa toda la pantalla */
       width: 100%; /* Ocupa todo el ancho */
@@ -27,14 +26,28 @@
       // Coordenadas iniciales
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
-      // Crear el mapa centrado en la ubicación predeterminada
+      // Crear el mapa
       const map = new google.maps.Map(document.getElementById("map"), {
         zoom: 17, // Nivel de zoom inicial
         center: defaultLocation,
-        gestureHandling: "greedy", // Permite mover el mapa con un solo dedo
+        disableDefaultUI: true, // Deshabilitar controles predeterminados
+        gestureHandling: "greedy", // Permitir mover con un dedo
       });
 
-      // Crear el botón de geolocalización
+      // Evento para capturar clics en el mapa (no realiza ninguna acción)
+      map.addListener("click", (e) => {
+        console.log("Clic en el mapa en:", e.latLng.toString());
+        // No realizar acciones al hacer clic en el mapa
+      });
+
+      // Agregar un marcador (opcional, pero sin interacción)
+      new google.maps.Marker({
+        position: defaultLocation,
+        map: map,
+        clickable: false, // Deshabilita la interacción con el marcador
+      });
+
+      // Crear el botón de geolocalización (opcional)
       const locationButton = document.createElement("button");
       locationButton.textContent = "📍 Centrar en mi ubicación";
       locationButton.style.backgroundColor = "#4285F4";
@@ -65,11 +78,12 @@
               // Centrar el mapa en la ubicación del usuario
               map.setCenter(userLocation);
 
-              // Agregar marcador en la ubicación del usuario
+              // Agregar marcador para la ubicación del usuario
               new google.maps.Marker({
                 position: userLocation,
                 map: map,
                 title: "Tu ubicación",
+                clickable: false, // Deshabilitar interacción con el marcador
               });
             },
             () => {
