@@ -9,11 +9,12 @@
       width: 100%;
     }
     #button-container {
-      position: absolute;
-      top: 10px; /* Ajuste para estar más arriba */
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
+      position: relative; /* Relativo para estar dentro del flujo del documento */
+      height: 10%; /* Altura reservada para el botón */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
     }
     #location-button {
       background-color: #4285F4;
