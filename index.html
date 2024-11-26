@@ -10,6 +10,7 @@
     #map {
       height: 100vh; /* Ocupa toda la pantalla */
       width: 100%; /* Ocupa todo el ancho */
+      position: relative; /* Posicionamiento para elementos hijos */
     }
     html, body {
       height: 100%;
@@ -27,12 +28,12 @@
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
       // Crear el mapa centrado en la ubicación predeterminada
-      const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 14, // Zoom inicial
+      const map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 14, // Nivel de zoom inicial
         center: defaultLocation,
       });
 
-      // Añadir control de geolocalización al mapa
+      // Crear el botón de geolocalización
       const locationButton = document.createElement("button");
       locationButton.textContent = "📍 Centrar en mi ubicación";
       locationButton.style.backgroundColor = "#4285F4";
@@ -47,7 +48,7 @@
       locationButton.style.left = "10px";
       locationButton.style.zIndex = "999";
 
-      // Añadir botón al mapa
+      // Añadir botón al DOM y al mapa
       map.controls[google.maps.ControlPosition.TOP_LEFT].push(locationButton);
 
       // Acción del botón
@@ -60,10 +61,10 @@
                 lng: position.coords.longitude,
               };
 
-              // Centrar mapa en la ubicación del usuario
+              // Centrar el mapa en la ubicación del usuario
               map.setCenter(userLocation);
 
-              // Agregar un marcador para la ubicación del usuario
+              // Agregar marcador en la ubicación del usuario
               new google.maps.Marker({
                 position: userLocation,
                 map: map,
