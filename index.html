@@ -8,32 +8,28 @@
   <style>
     /* Contenedor del mapa */
     #map {
-      height: 85vh; /* Altura del mapa: 85% de la altura visible */
+      height: 100vh; /* Ocupa toda la pantalla */
       width: 100%; /* Ocupa todo el ancho */
       user-select: none; /* Deshabilitar selección de texto */
-    }
-
-    /* Contenedor del botón */
-    #button-container {
-      height: 15vh; /* Altura: 15% de la altura visible */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: #f1f1f1;
-      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2);
+      position: relative; /* Necesario para posicionar elementos hijos */
     }
 
     /* Estilo del botón */
     #location-button {
+      position: absolute; /* Posicionar dentro del contenedor del mapa */
+      top: 10px; /* Espaciado desde la parte superior */
+      left: 50%; /* Centrar horizontalmente */
+      transform: translateX(-50%); /* Ajustar para centrar */
       background-color: #4285F4;
       color: white;
       border: none;
-      padding: 1em 2em;
+      padding: 0.8em 1.5em;
       border-radius: 8px;
-      font-size: 1.2em; /* Escala automáticamente según el tamaño de la pantalla */
+      font-size: 1.2em;
       font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      z-index: 999; /* Asegurar que esté sobre el mapa */
     }
 
     #location-button:hover {
@@ -45,32 +41,28 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
     }
 
     /* Adaptaciones responsivas */
     @media (max-width: 600px) {
       #location-button {
-        font-size: 1em; /* Reducir el tamaño del texto en pantallas pequeñas */
-        padding: 0.8em 1.5em;
+        font-size: 1em;
+        padding: 0.8em 1em;
       }
     }
 
     @media (min-width: 601px) and (max-width: 1024px) {
       #location-button {
-        font-size: 1.1em; /* Tamaño medio para tablets */
-        padding: 1em 2em;
+        font-size: 1.1em;
+        padding: 1em 1.5em;
       }
     }
   </style>
 </head>
 <body>
   <!-- Contenedor del mapa -->
-  <div id="map"></div>
-
-  <!-- Contenedor del botón -->
-  <div id="button-container">
+  <div id="map">
+    <!-- Botón de ubicación -->
     <button id="location-button">📍 CENTRAR EN MI UBICACIÓN</button>
   </div>
 
