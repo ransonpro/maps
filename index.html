@@ -3,82 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>Mapa Adaptable</title>
+  <title>Mapa con Geolocalización</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
     /* Contenedor del mapa */
     #map {
       height: 100vh; /* Ocupa toda la pantalla */
       width: 100%; /* Ocupa todo el ancho */
-      position: relative; /* Necesario para posicionar elementos dentro del mapa */
     }
-
-    /* Estilo del botón */
-    #location-button {
-      position: absolute; /* Posicionar dentro del contenedor del mapa */
-      top: 10px; /* Espaciado desde la parte superior */
-      left: 50%; /* Centrar horizontalmente */
-      transform: translateX(-50%); /* Ajustar para centrar */
-      background-color: #4285F4;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-      z-index: 999; /* Asegurar que esté sobre el mapa */
-    }
-
-    #location-button:hover {
-      background-color: #357ae8;
-    }
-
-    /* Configuración general */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Evitar scroll */
     }
   </style>
 </head>
 <body>
-  <!-- Contenedor del mapa -->
-  <div id="map">
-    <!-- Botón de ubicación -->
-    <button id="location-button">📍 CENTRAR EN MI UBICACIÓN</button>
-  </div>
+  <div id="map"></div>
 
   <script>
     function initMap() {
-      // Coordenadas iniciales (10.18565896837558, -64.68045253627228)
+      // Coordenadas iniciales
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
       // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 17, // Zoom cercano
+        zoom: 14, // Zoom inicial
         center: defaultLocation,
-        disableDefaultUI: true, // Deshabilitar controles predeterminados
       });
 
-      // Estilo personalizado para el marcador
-      const markerIcon = {
-        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
-        scaledSize: new google.maps.Size(50, 50),
-      };
+      // Añadir control de geolocalización al mapa
+      const locationButton = document.createElement("button");
+      locationButton.textContent = "📍 Centrar en mi ubicación";
+      locationButton.style.backgroundColor = "#4285F4";
+      locationButton.style.color = "white";
+      locationButton.style.border = "none";
+      locationButton.style.padding = "10px 20px";
+      locationButton.style.borderRadius = "8px";
+      locationButton.style.cursor = "pointer";
+      locationButton.style.fontSize = "16px";
+      locationButton.style.position = "absolute";
+      locationButton.style.top = "10px";
+      locationButton.style.left = "10px";
+      locationButton.style.zIndex = "999";
 
-      // Agregar marcador en la ubicación predeterminada
-      new google.maps.Marker({
-        position: defaultLocation,
-        map: map,
-        title: 'Ubicación predeterminada',
-        icon: markerIcon,
-      });
+      // Añadir botón al mapa
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(locationButton);
 
-      // Manejar el botón de ubicación
-      document.getElementById('location-button').addEventListener('click', () => {
+      // Acción del botón
+      locationButton.addEventListener("click", () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -87,23 +60,22 @@
                 lng: position.coords.longitude,
               };
 
-              // Centrar el mapa
+              // Centrar mapa en la ubicación del usuario
               map.setCenter(userLocation);
 
               // Agregar un marcador para la ubicación del usuario
               new google.maps.Marker({
                 position: userLocation,
                 map: map,
-                title: 'Tu ubicación',
-                icon: markerIcon,
+                title: "Tu ubicación",
               });
             },
             () => {
-              console.warn('No se pudo obtener tu ubicación.');
+              alert("No se pudo obtener tu ubicación.");
             }
           );
         } else {
-          console.warn('Tu navegador no soporta geolocalización.');
+          alert("Tu navegador no soporta geolocalización.");
         }
       });
     }
