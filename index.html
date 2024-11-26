@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Mapa con Botón</title>
+  <title>Mapa con Texto Más Grande</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
     #map {
@@ -10,21 +10,21 @@
     }
     #button-container {
       position: relative;
-      height: 20%; /* Altura reservada para el botón */
+      height: 10%; /* Altura reservada para el botón */
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f1f1f1; /* Fondo más visible */
+      background-color: #f1f1f1;
       box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra para diferenciar el botón del mapa */
     }
     #location-button {
       background-color: #4285F4;
       color: white;
       border: none;
-      padding: 15px 30px; /* Más espacio alrededor del texto */
-      border-radius: 8px; /* Bordes más redondeados */
-      font-size: 18px; /* Texto más grande */
-      font-weight: bold; /* Letras en negrita */
+      padding: 15px 30px;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: bold;
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
@@ -52,16 +52,38 @@
       // Coordenadas iniciales (10.18565896837558, -64.68045253627228)
       const defaultLocation = { lat: 10.18565896837558, lng: -64.68045253627228 };
 
+      // Estilos personalizados para texto más grande
+      const mapStyles = [
+        {
+          elementType: "labels.text",
+          stylers: [{ visibility: "on" }, { weight: 1.5 }, { color: "#000000" }],
+        },
+        {
+          elementType: "labels.text.fill",
+          stylers: [{ color: "#000000" }, { weight: 1.5 }],
+        },
+        {
+          elementType: "labels.text.stroke",
+          stylers: [{ visibility: "off" }],
+        },
+        {
+          featureType: "road",
+          elementType: "labels",
+          stylers: [{ fontSize: "16px" }],
+        },
+      ];
+
       // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 20, // Zoom cercano
+        zoom: 17, // Zoom cercano
         center: defaultLocation,
+        styles: mapStyles, // Aplicar estilos personalizados
       });
 
       // Estilo personalizado para el marcador
       const markerIcon = {
-        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png", // Icono visible
-        scaledSize: new google.maps.Size(50, 50), // Tamaño grande
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png",
+        scaledSize: new google.maps.Size(50, 50),
       };
 
       // Agregar marcador en la ubicación predeterminada
@@ -69,7 +91,7 @@
         position: defaultLocation,
         map: map,
         title: 'Ubicación predeterminada',
-        icon: markerIcon, // Usar icono personalizado
+        icon: markerIcon,
       });
 
       // Manejar el botón de ubicación
@@ -90,7 +112,7 @@
                 position: userLocation,
                 map: map,
                 title: 'Tu ubicación',
-                icon: markerIcon, // Usar icono personalizado
+                icon: markerIcon,
               });
             },
             () => {
