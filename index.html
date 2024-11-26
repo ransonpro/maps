@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SegurApp Map</title>
+  <title>Mapa con Botón</title>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
-    /* Estilo para el mapa */
     #map {
-      height: 100%; /* Asegura que el mapa ocupe toda la pantalla */
+      height: 90%; /* Ocupa el 90% de la pantalla */
       width: 100%;
     }
-
-    /* Contenedor para el botón */
     #button-container {
-      position: absolute; /* Coloca el botón sobre el mapa */
-      top: 10px; /* Ajusta la posición desde el borde superior */
-      left: 10px; /* Ajusta la posición desde el borde izquierdo */
-      z-index: 1000; /* Asegura que esté por encima del mapa */
+      height: 10%; /* Espacio reservado para el botón */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f9f9f9;
     }
-
-    /* Estilo del botón */
     #location-button {
       background-color: #4285F4;
       color: white;
       border: none;
-      padding: 10px 15px;
+      padding: 10px 20px;
       border-radius: 5px;
-      font-size: 14px;
+      font-size: 16px;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
-
     #location-button:hover {
       background-color: #357ae8;
     }
-
-    /* Asegura que el contenedor principal tenga estilos */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      overflow: hidden; /* Evita el scroll inesperado */
     }
   </style>
 </head>
@@ -49,33 +40,22 @@
 
   <!-- Contenedor del botón -->
   <div id="button-container">
-    <button id="location-button">📍 Mi ubicación</button>
+    <button id="location-button">📍 Centrar en mi ubicación</button>
   </div>
 
   <script>
-    let map; // Variable global para el mapa
-
     function initMap() {
-      // Coordenadas predeterminadas (Lechería, Venezuela)
+      // Coordenadas iniciales
       const defaultLocation = { lat: 10.176872, lng: -64.686673 };
 
-      // Crear el mapa centrado en la ubicación predeterminada
-      map = new google.maps.Map(document.getElementById('map'), {
+      // Crear el mapa
+      const map = new google.maps.Map(document.getElementById('map'), {
         zoom: 15,
         center: defaultLocation,
       });
 
-      // Agregar marcador en la ubicación predeterminada
-      new google.maps.Marker({
-        position: defaultLocation,
-        map: map,
-        title: 'Ubicación predeterminada (Lechería)',
-      });
-
-      // Configurar el botón de ubicación
-      const locationButton = document.getElementById('location-button');
-      locationButton.addEventListener('click', () => {
-        // Intentar obtener la ubicación del usuario
+      // Manejar el botón de ubicación
+      document.getElementById('location-button').addEventListener('click', () => {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -84,8 +64,10 @@
                 lng: position.coords.longitude,
               };
 
-              // Recentrar el mapa y agregar un marcador en la ubicación del usuario
+              // Centrar el mapa
               map.setCenter(userLocation);
+
+              // Agregar un marcador
               new google.maps.Marker({
                 position: userLocation,
                 map: map,
@@ -97,12 +79,12 @@
             }
           );
         } else {
-          alert('Geolocalización no está soportada por este navegador.');
+          alert('Tu navegador no soporta geolocalización.');
         }
       });
     }
 
-    // Inicializa el mapa cuando la página se carga
+    // Inicializar el mapa
     window.onload = initMap;
   </script>
 </body>
