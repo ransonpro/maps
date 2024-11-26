@@ -5,24 +5,26 @@
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBRIUhxR6XSJs1O1EmWuRvKjg0h87DsaOs"></script>
   <style>
     #map {
-      height: 95%; /* Ocupa el 95% de la pantalla */
+      height: 90%; /* El mapa ocupa el 90% de la pantalla */
       width: 100%;
     }
     #button-container {
-      position: relative; /* Relativo para estar dentro del flujo del documento */
+      position: relative;
       height: 10%; /* Altura reservada para el botón */
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: #f9f9f9;
+      background-color: #f1f1f1; /* Fondo más visible */
+      box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.2); /* Sombra para diferenciar el botón del mapa */
     }
     #location-button {
       background-color: #4285F4;
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 16px;
+      padding: 15px 30px; /* Más espacio alrededor del texto */
+      border-radius: 8px; /* Bordes más redondeados */
+      font-size: 18px; /* Texto más grande */
+      font-weight: bold; /* Letras en negrita */
       cursor: pointer;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
@@ -42,7 +44,7 @@
 
   <!-- Contenedor del botón -->
   <div id="button-container">
-    <button id="location-button">📍 Centrar en mi ubicación</button>
+    <button id="location-button">📍 CENTRAR EN MI UBICACIÓN</button>
   </div>
 
   <script>
@@ -52,14 +54,14 @@
 
       // Crear el mapa centrado en la ubicación predeterminada
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 17, // Aumentar el zoom para mayor cercanía
+        zoom: 20, // Zoom cercano
         center: defaultLocation,
       });
 
       // Estilo personalizado para el marcador
       const markerIcon = {
-        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png", // Icono más visible
-        scaledSize: new google.maps.Size(50, 50), // Ajustar tamaño
+        url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png", // Icono visible
+        scaledSize: new google.maps.Size(50, 50), // Tamaño grande
       };
 
       // Agregar marcador en la ubicación predeterminada
