@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SegurApp Map</title>
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+  <style>
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+    function initMap() {
+      var venezuela = {lat: 10.4806, lng: -66.9036}; // Coordenadas iniciales (Caracas, Venezuela)
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 12,
+        center: venezuela
+      });
+
+      var marker = new google.maps.Marker({
+        position: venezuela,
+        map: map,
+        title: 'Caracas'
+      });
+    }
+
+    // Inicializa el mapa
+    window.onload = initMap;
+  </script>
+</body>
+</html>
